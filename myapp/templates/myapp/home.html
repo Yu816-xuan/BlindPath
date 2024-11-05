@@ -32,18 +32,41 @@
         <div class="wrap">
             <div class="left fl">
                 <div class="left-header">
-                    <span>盲道侵占情况</span>
+                    <span>盲道监控列表</span>
                     <!-- 在这里添加盲道侵占情况的图表或列表 -->
-                    <div id="left-header-nong" style="width: 100%;height: 100%;" class="left-header-nong"></div>
-                </div>
-                <div class="left-mid">
-                    <span>报警记录</span>
-                    <!-- 在这里添加报警记录的图表或列表 -->
-                    <div id="left-mid-nong" style="width: 100%;height: 100%;" class="left-header-nong"></div>
-                </div>
-                <div class="left-bottom">
-                    <span>农业小气候站</span>
-                    <div id="left-bottom-nong" style="width: 100%;height: 100%;" class="left-header-nong"></div>
+                    <div class="right-mid-scroll">
+                        <div class="right-mid-content">
+                            <!-- 表格开始 -->
+                            <table class="alarm-table">
+                                <tbody>
+                                    <tr>
+                                        <td>监控1</td>
+                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
+                                    </tr>
+                                    <tr>
+                                        <td>监控1</td>
+                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
+                                    </tr>
+                                     <tr>
+                                        <td>监控1</td>
+                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
+                                    </tr>
+<!--                                    {% for alarm in alarms %}-->
+<!--                                        <tr>-->
+<!--                                            <td>{{ alarm.category }}</td>-->
+<!--                                            <td>{{ alarm.time }}</td>-->
+<!--                                            <td>{{ alarm.status }}</td>-->
+<!--                                            <td><input type="checkbox" class="alarm-checkbox"></td>-->
+<!--                                        </tr>-->
+<!--                                    {% endfor %}-->
+
+                                    <!-- 你可以根据需要添加更多报警数据行 -->
+                                </tbody>
+                            </table>
+                            <!-- 表格结束 -->
+                        </div>
+                    </div>
+                    <a href="javascript:;" class="history" id="triggerBtn1">查看历史记录</a>
                 </div>
             </div>
             <div class="center fl">
