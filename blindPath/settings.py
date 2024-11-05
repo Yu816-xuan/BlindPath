@@ -122,3 +122,14 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 静态文件的路径
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # 如果你的静态文件放在项目根目录下的 static 文件夹
+]
+
+# 媒体文件的 URL 前缀
+MEDIA_URL = '/media/'
+
+# 媒体文件的路径
+MEDIA_ROOT = BASE_DIR / 'media'
