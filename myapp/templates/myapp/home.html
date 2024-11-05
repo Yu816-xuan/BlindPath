@@ -95,74 +95,60 @@
             </div>
             </div>
             <div class="right fr">
-                <span class="right-title">盲道详情</span>
+                <span class="right-title">监控信息</span>
                 <div class="right-top">
                     <div class="right-top-content">
-                        <span class="name">站名:</span>
-                        <span class="text">观测站</span>
-                    </div>
-                    <div class="right-top-content">
                         <span class="name">编号:</span>
-                        <span class="text">LOO33</span>
+                        <span class="text">11</span>
                     </div>
                     <div class="right-top-content">
                         <span class="name">地址:</span>
-                        <span class="text">观测站</span>
-                    </div>
-                    <div class="right-top-content">
-                        <span class="name">观测作物:</span>
-                        <span class="text">西红柿</span>
+                        <span class="text">长沙</span>
                     </div>
                 </div>
                 <div class="right-mid">
                     <div class="right-mid-header">
-                        实时数据
+                        报警列表
                     </div>
                     <div class="right-mid-scroll">
                         <div class="right-mid-content">
-                            <div class="right-top-content">
-                                <span class="name">要素数:</span>
-                                <span class="text">7</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">观测时间:</span>
-                                <span class="text">2020-03-16 10:40:00</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">150cm气温:</span>
-                                <span class="text">33.4℃</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">150cm空气相对湿度</span>
-                                <span class="text">48.7%</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">5cm低温：</span>
-                                <span class="text">0.0℃</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">10cm低温：</span>
-                                <span class="text">18.1℃</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">20cm低温:</span>
-                                <span class="text">18.0℃</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">10cm土壤相对湿度:</span>
-                                <span class="text">46.3℃</span>
-                            </div>
-                            <div class="right-top-content">
-                                <span class="name">20cm土壤相对湿度:</span>
-                                <span class="text">46.3℃</span>
-                            </div>
+                            <!-- 表格开始 -->
+                            <table class="alarm-table">
+                                <thead>
+                                    <tr>
+                                        <th>类别</th>
+                                        <th>报警时间</th>
+                                        <th>处理情况</th><!-- 复选框列 -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>汽车</td>
+                                        <td>2020-03-16 10:40:00</td>
+                                        <td>未处理</td>
+                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
+                                    </tr>
+<!--                                    {% for alarm in alarms %}-->
+<!--                                        <tr>-->
+<!--                                            <td>{{ alarm.category }}</td>-->
+<!--                                            <td>{{ alarm.time }}</td>-->
+<!--                                            <td>{{ alarm.status }}</td>-->
+<!--                                            <td><input type="checkbox" class="alarm-checkbox"></td>-->
+<!--                                        </tr>-->
+<!--                                    {% endfor %}-->
+
+                                    <!-- 你可以根据需要添加更多报警数据行 -->
+                                </tbody>
+                            </table>
+                            <!-- 表格结束 -->
                         </div>
                     </div>
                     <a href="javascript:;" class="history" id="triggerBtn">查看历史记录</a>
                 </div>
+
                 <div class="right-bottom">
                     <div class="right-mid-header">
-                        实时监控
+                        侵占频率
                     </div>
                     <div class="right-bottom-content">
                         <img src="./img/jiankong.png" alt="">
