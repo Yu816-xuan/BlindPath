@@ -76,12 +76,17 @@ WSGI_APPLICATION = "blindPath.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'blindpath monitor system',
+#         'USER': 'root',
+#         'PASSWORD': '123456',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
 
 
 # Password validation
@@ -130,10 +135,10 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",  # BASE_DIR 是项目根目录
 ]
 
-# 静态文件的路径
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',  # 如果你的静态文件放在项目根目录下的 static 文件夹
-]
+# # 静态文件的路径
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',  # 如果你的静态文件放在项目根目录下的 static 文件夹
+# ]
 
 # 媒体文件的 URL 前缀
 MEDIA_URL = '/media/'
