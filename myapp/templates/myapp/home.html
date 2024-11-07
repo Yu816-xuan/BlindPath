@@ -78,6 +78,7 @@
                     <div class="right-mid-scroll">
                         <div class="right-mid-content">
                             <!-- 表格开始 -->
+                           <!-- 在页面中，确保每一行监控项都正确地绑定了 monitor_id -->
                             <table class="monitor-table">
                                 <thead>
                                     <tr>
@@ -85,10 +86,9 @@
                                         <th>位置</th>
                                     </tr>
                                 </thead>
-                                <!-- Inside the "监控列表" table in the HTML file -->
                                 <tbody>
                                     {% for monitor in monitors %}
-                                    <tr class="monitor-item" data-monitor-id="{{ monitor.id }}" data-video-url="{{ monitor.video_url }}">
+                                    <tr class="monitor-item" data-monitor-id="{{ monitor.id }}">
                                         <td>{{ monitor.id }}</td>
                                         <td>{{ monitor.location }}</td>
                                     </tr>
@@ -99,57 +99,50 @@
                     </div>
                     <script>
                         document.addEventListener("DOMContentLoaded", function () {
-                            // Select all monitor items
                             const monitorItems = document.querySelectorAll(".monitor-item");
-                        
-                            // Add a click event listener to each item
+                            
                             monitorItems.forEach(item => {
                                 item.addEventListener("click", function () {
-                                    // Get the monitor ID from the clicked item
                                     const monitorId = this.getAttribute("data-monitor-id");
-                        
-                                    // Call the function to update based on the monitor ID
                                     updateMonitorDetails(monitorId);
                                 });
                             });
                         });
-                        
+            
                         function updateMonitorDetails(monitorId) {
                             fetch(`/api/monitor/${monitorId}/details/`)
                                 .then(response => response.json())
                                 .then(data => {
-                                    const videoElement = document.getElementById("myVideo");
-                                    const videoSource = videoElement.querySelector("source");
-                        
-                                    videoSource.src = data.video_url;
-                                    videoElement.load();
-                                    console.log(`Monitor ID: ${monitorId}`, data);
+                                    if (data.video_url) {
+                                        const videoElement = document.getElementById("myVideo");
+                                        const videoSource = videoElement.querySelector("source");
+            
+                                        videoSource.src = data.video_url;  // 设置视频 URL
+                                        videoElement.load();
+                                        videoElement.play();  // 自动播放
+                                    } else {
+                                        console.error("视频 URL 未提供");
+                                    }
                                 })
-                                .catch(error => console.error("Error fetching monitor details:", error));
+                                .catch(error => console.error("获取监控详细信息时出错:", error));
                         }
                     </script>
-
-                    <a href="javascript:;" class="history" id="triggerBtn1">查看历史记录</a>
                 </div>
             </div>
             <div class="center fl">
                 <div class="center-video">
-                    <!-- 使用 Django 的 {{ MEDIA_URL }} 来引入视频文件 -->
-                    <!-- templates/video_page.html -->
-                     <!-- autoplay muted loop                   a-->
-                 
-                     <video id="myVideo" loop>
-                       <source src="{% static 'videos/my_video.mp4' %}" type="video/mp4">
-                       Your browser does not support the video tag.
-                     </video>
-                     <button class="playvideo" onclick="playVideo()">播放视频</button>
-                 
-                     <script>
-                     function playVideo() {
-                       var video = document.getElementById('myVideo');
-                       video.play();
-                     }
-                     </script>
+                    <video id="myVideo" loop>
+                        <source src="{% static selected_monitor.video_url %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <button class="playvideo" onclick="playVideo()">播放视频</button>
+                
+                    <script>
+                        function playVideo() {
+                            var video = document.getElementById('myVideo');
+                            video.play();
+                        }
+                    </script>
                  </div>
                  <div class="center-offline">
                     <div class="center-offline-header">
@@ -352,18 +345,31 @@
         </div>
     </div>
     </div>
+    <!-- Modal for confirming the update -->
+    <div id="confirmationModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="model-header">确认处理</div>
+            <p>您确定已处理此报警吗？</p>
+            <div class="modal-buttons">
+                <button id="confirmButton">确认</button>
+                <button id="cancelButton">取消</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Function to update alarm table based on monitor ID
         function updateAlarmList(monitorId) {
-            fetch(`/api/monitor/${monitorId}/alarms/`) // Fetch alarms for the specific monitor
+            fetch(`/api/monitor/${monitorId}/alarms/`)  // Fetch alarms for the specific monitor
                 .then(response => response.json())
                 .then(data => {
                     const tbody = document.querySelector(".alarm-table tbody");
-                    tbody.innerHTML = ''; // Clear current table contents
+                    tbody.innerHTML = '';  // Clear current table contents
     
                     // Populate table with the new alarm data
                     data.alarms.forEach(alarm => {
                         const row = document.createElement('tr');
+                        row.setAttribute('data-monitor-id', monitorId);  // Add monitorId to the row for later use
     
                         const typeCell = document.createElement('td');
                         typeCell.textContent = alarm.obstacle_type;
@@ -390,11 +396,72 @@
             monitorItems.forEach(item => {
                 item.addEventListener("click", function () {
                     const monitorId = this.getAttribute("data-monitor-id");
-                    updateAlarmList(monitorId); // Call the function to update List B
+                    updateAlarmList(monitorId);  // Call the function to update List B
                 });
             });
         });
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            const alarmTable = document.querySelector(".alarm-table tbody");
+            const modal = document.getElementById("confirmationModal");
+            const confirmButton = document.getElementById("confirmButton");
+            const cancelButton = document.getElementById("cancelButton");
+    
+            let selectedRow;  // To keep track of the row that was clicked
+            let monitorId;    // To keep track of the monitor ID associated with the alarm
+    
+            // Handle click event on "处理情况" cell
+            alarmTable.addEventListener("click", function (event) {
+                const target = event.target;
+    
+                // Check if the clicked element is the "处理情况" cell and if it is "未处理"
+                if (target.tagName === 'TD' && target.textContent === '未处理') {
+                    selectedRow = target.parentElement;  // Store the row clicked
+                    monitorId = selectedRow.getAttribute('data-monitor-id');  // Get the monitor ID from the row
+    
+                    // Show the modal
+                    modal.style.display = 'block';
+                }
+            });
+    
+            // Handle confirm button click to update the alarm status
+            confirmButton.addEventListener("click", function () {
+                if (monitorId) {
+                    // Send the update request to the backend (Django API)
+                    fetch(`/api/monitor/${monitorId}/alarms/update/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ status: '已处理' }),  // Update status to '已处理'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Update the status in the table
+                            selectedRow.querySelector("td:nth-child(3)").textContent = '已处理';
+                        } else {
+                            alert('更新失败，请稍后再试');
+                        }
+                    })
+                    .catch(error => console.error("Error updating status:", error));
+    
+                    // Close the modal
+                    modal.style.display = 'none';
+                } else {
+                    alert('监控项的 monitorId 无效！');
+                }
+            });
+    
+            // Handle cancel button click to close the modal
+            cancelButton.addEventListener("click", function () {
+                // Close the modal without making changes
+                modal.style.display = 'none';
+            });
+        });
     </script>
+    
+    
 </body>
 <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script src="{% static 'js/bar.js'%}"></script>

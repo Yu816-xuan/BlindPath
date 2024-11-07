@@ -5,6 +5,7 @@ class Monitor(models.Model):
     location = models.CharField(max_length=255)  # 监控位置
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)  # 纬度
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True)  # 经度
+    video_url = models.URLField(max_length=200, blank=True, null=True)  # 视频 URL
 
     def __str__(self):
         return self.location
@@ -19,7 +20,6 @@ class Monitor(models.Model):
 
 # 报警事件
 class Alarm(models.Model):
-    objects = None
     MONITOR_TYPE_CHOICES = [
         ('unknown', '未知'),
         ('vehicle', '车辆'),
