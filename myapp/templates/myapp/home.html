@@ -22,6 +22,27 @@
             console.log("jQuery is loaded and ready to use!");
         });
     </script>
+    <style>
+        /* 监控列表字体颜色设置为白色 */
+        .alarm-table td {
+            color: white; /* 设置监控列表字体为白色 */
+        }
+
+        /* 报警列表字体颜色设置为白色 */
+        .right-mid-content .alarm-table td {
+            color: white; /* 设置报警列表字体为白色 */
+        }
+
+        /* 如果你希望表头文字也改为白色 */
+        .alarm-table th {
+            color: white; /* 设置监控列表表头字体颜色为白色 */
+        }
+
+        /* 报警列表表头字体颜色设置为白色 */
+        .right-mid-content .alarm-table th {
+            color: white; /* 设置报警列表表头字体颜色为白色 */
+        }
+    </style>
 </head>
 <body>
     <div class="bg">
@@ -38,34 +59,24 @@
                         <div class="right-mid-content">
                             <!-- 表格开始 -->
                             <table class="alarm-table">
+                                <thead>
+                                    <tr>
+                                        <th>编号</th>
+                                        <th>位置</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>监控1</td>
-                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
+                                    {% for monitor in monitors %}
+                                    <tr class="monitor-item" data-monitor-id="{{ monitor.id }}" data-video-url="{{ monitor.video_url }}">
+                                        <td>{{ monitor.id }}</td>
+                                        <td>{{ monitor.location }}</td>
                                     </tr>
-                                    <tr>
-                                        <td>监控1</td>
-                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
-                                    </tr>
-                                     <tr>
-                                        <td>监控1</td>
-                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
-                                    </tr>
-<!--                                    {% for alarm in alarms %}-->
-<!--                                        <tr>-->
-<!--                                            <td>{{ alarm.category }}</td>-->
-<!--                                            <td>{{ alarm.time }}</td>-->
-<!--                                            <td>{{ alarm.status }}</td>-->
-<!--                                            <td><input type="checkbox" class="alarm-checkbox"></td>-->
-<!--                                        </tr>-->
-<!--                                    {% endfor %}-->
-
-                                    <!-- 你可以根据需要添加更多报警数据行 -->
+                                    {% endfor %}
                                 </tbody>
                             </table>
-                            <!-- 表格结束 -->
                         </div>
                     </div>
+
                     <a href="javascript:;" class="history" id="triggerBtn1">查看历史记录</a>
                 </div>
             </div>
@@ -84,7 +95,6 @@
                             <div class="sit sit-title fl">状态</div>
                             <div class="sit sit-title fl">电话</div>
                         </div>
-                        <!-- 自动滚动清单列表 -->
                         <div class="list" id="list">
                             <div class="rowup" id="rowup">
                                 <ul class="list-item">
@@ -118,21 +128,8 @@
             </div>
             </div>
             <div class="right fr">
-                <span class="right-title">监控信息</span>
-                <div class="right-top">
-                    <div class="right-top-content">
-                        <span class="name">编号:</span>
-                        <span class="text">11</span>
-                    </div>
-                    <div class="right-top-content">
-                        <span class="name">地址:</span>
-                        <span class="text">长沙</span>
-                    </div>
-                </div>
-                <div class="right-mid">
-                    <div class="right-mid-header">
-                        报警列表
-                    </div>
+                <div>
+                <span class="right-title">报警列表</span>
                     <div class="right-mid-scroll">
                         <div class="right-mid-content">
                             <!-- 表格开始 -->
@@ -145,29 +142,20 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    {% for alarm in alarms %}
                                     <tr>
-                                        <td>汽车</td>
-                                        <td>2020-03-16 10:40:00</td>
-                                        <td>未处理</td>
-                                        <td><input type="checkbox" class="alarm-checkbox"></td> <!-- 每一行的复选框 -->
+                                        <td>{{ alarm.get_obstacle_type_display }}</td>
+                                        <td>{{ alarm.alarm_time }}</td>
+                                        <td>{{ alarm.is_processed|yesno:"已处理,未处理" }}</td>
                                     </tr>
-<!--                                    {% for alarm in alarms %}-->
-<!--                                        <tr>-->
-<!--                                            <td>{{ alarm.category }}</td>-->
-<!--                                            <td>{{ alarm.time }}</td>-->
-<!--                                            <td>{{ alarm.status }}</td>-->
-<!--                                            <td><input type="checkbox" class="alarm-checkbox"></td>-->
-<!--                                        </tr>-->
-<!--                                    {% endfor %}-->
-
-                                    <!-- 你可以根据需要添加更多报警数据行 -->
+                                    {% endfor %}
                                 </tbody>
                             </table>
-                            <!-- 表格结束 -->
                         </div>
                     </div>
                     <a href="javascript:;" class="history" id="triggerBtn">查看历史记录</a>
                 </div>
+
 
                 <div class="right-bottom">
                     <div class="right-mid-header">

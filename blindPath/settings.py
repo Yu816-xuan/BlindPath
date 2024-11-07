@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,16 +76,16 @@ WSGI_APPLICATION = "blindPath.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'blindpath monitor system',
-#         'USER': 'root',
-#         'PASSWORD': '123456',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'blindpath monitor system',
+        'USER': 'root',
+        'PASSWORD': '240816',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
 
 
 
@@ -129,19 +129,10 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-# settings.py
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",  # BASE_DIR 是项目根目录
 ]
 
-# # 静态文件的路径
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static',  # 如果你的静态文件放在项目根目录下的 static 文件夹
-# ]
-
-# 媒体文件的 URL 前缀
 MEDIA_URL = '/media/'
-
-# 媒体文件的路径
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

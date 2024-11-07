@@ -1,0 +1,22 @@
+<!-- monitor/templates/monitor/infringement_records.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>侵占记录</title>
+</head>
+<body>
+    <h1>侵占记录</h1>
+    <input type="text" placeholder="搜索记录..." />
+    <button>搜索</button>
+    <ul>
+        {% for record in records %}
+            <li>{{ record }}</li>
+        {% empty %}
+            <li>没有侵占记录。</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'home' %}">返回主页</a>
+</body>
+</html>

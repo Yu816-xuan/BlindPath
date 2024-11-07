@@ -50,11 +50,30 @@
 }
 
 .left {
-    width: 2.39899rem;
-    height: 4.681515rem;
-    background: url(../img/kuang2.png) no-repeat;
+    margin-right: .126263rem;
+}
+
+.left-mid,
+.left-bottom,
+.left-header {
+    background: url(../img/kuang4.png) no-repeat;
     background-size: cover;
-    }
+    width: 2.39899rem;
+    height: 1.494949rem;
+    margin-bottom: .045455rem;
+}
+
+.left-bottom span,
+.left-mid span,
+.left-header span {
+    display: inline-block;
+    color: #2b8fff;
+    font-size: .070707rem;
+    font-weight: 600;
+    padding-top: .050505rem;
+    padding-left: .050505rem;
+}
+
 
 /* mid neirong */
 .center {

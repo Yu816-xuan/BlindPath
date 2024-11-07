@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>监控分布与报警统计</title>
+
+    <!-- 引入 Leaflet.js 样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+        .popup-content {
+            font-size: 14px;
+        }
+        .statistic {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>监控分布与报警统计</h1>
+
+    <!-- 地图容器 -->
+    <div id="map"></div>
+
+    <!-- 报警统计 -->
+    <h2>报警统计</h2>
+    <ul>
+<!--        {% for monitor in monitors %}-->
+<!--            <li>-->
+<!--                {{ monitor.location }}:-->
+<!--                <span class="statistic">{{ monitor.alarms.count }} 次报警</span>-->
+<!--            </li>-->
+<!--        {% endfor %}-->
+    </ul>
+
+    <!-- 引入 Leaflet.js 和地图功能 -->
+<!--    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>-->
+<!--    <script>-->
+<!--        // 创建地图实例-->
+<!--        var map = L.map('map').setView([39.9, 116.38], 12);  // 设置地图中心为北京的经纬度-->
+
+<!--        // 使用 OpenStreetMap 提供的地图图层-->
+<!--        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {-->
+<!--            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'-->
+<!--        }).addTo(map);-->
+
+<!--        // 监控区域的标记点-->
+<!--        {% for monitor in monitors %}-->
+<!--            var lat = {{ monitor.latitude }};-->
+<!--            var lon = {{ monitor.longitude }};-->
+<!--            var monitorName = "{{ monitor.location }}";-->
+<!--            var alarmCount = {{ monitor.alarms.count }};-->
+
+<!--            // 添加标记到地图-->
+<!--            var marker = L.marker([lat, lon]).addTo(map);-->
+
+<!--            // 添加弹出框显示监控信息和报警统计-->
+<!--            marker.bindPopup(`-->
+<!--                <strong>${monitorName}</strong><br>-->
+<!--                <span class="popup-content">报警次数: ${alarmCount}</span>-->
+<!--            `);-->
+<!--        {% endfor %}-->
+<!--    </script>-->
+</body>
+</html>
