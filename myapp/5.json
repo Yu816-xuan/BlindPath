@@ -1,0 +1,82 @@
+{
+  "frame_number": 5,
+  "detections": [
+    {
+      "class_id": 4,
+      "class_name": "blind_lane",
+      "confidence": "tensor(0.99)",
+      "bbox": ["tensor(108)", "tensor(158)", "tensor(308)", "tensor(458)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 1,
+      "class_name": "person",
+      "confidence": "tensor(0.95)",
+      "bbox": ["tensor(58)", "tensor(108)", "tensor(208)", "tensor(308)"],
+      "ignore": 0
+    },
+        {
+      "class_id": 8,
+      "class_name": "person1",
+      "confidence": "tensor(0.95)",
+      "bbox": ["tensor(56)", "tensor(106)", "tensor(206)", "tensor(306)"],
+      "ignore": 0
+    },
+        {
+      "class_id": 9,
+      "class_name": "person1",
+      "confidence": "tensor(0.95)",
+      "bbox": ["tensor(56)", "tensor(106)", "tensor(206)", "tensor(306)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 2,
+      "class_name": "car",
+      "confidence": "tensor(0.87)",
+      "bbox": ["tensor(158)", "tensor(208)", "tensor(408)", "tensor(358)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 3,
+      "class_name": "dog",
+      "confidence": "tensor(0.9)",
+      "bbox": ["tensor(308)", "tensor(408)", "tensor(508)", "tensor(608)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 5,
+      "class_name": "bicycle",
+      "confidence": "tensor(0.92)",
+      "bbox": ["tensor(420)", "tensor(520)", "tensor(620)", "tensor(720)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 6,
+      "class_name": "tree",
+      "confidence": "tensor(0.88)",
+      "bbox": ["tensor(520)", "tensor(620)", "tensor(720)", "tensor(820)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 7,
+      "class_name": "traffic_light",
+      "confidence": "tensor(0.93)",
+      "bbox": ["tensor(608)", "tensor(108)", "tensor(658)", "tensor(308)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 8,
+      "class_name": "bus",
+      "confidence": "tensor(0.89)",
+      "bbox": ["tensor(708)", "tensor(408)", "tensor(908)", "tensor(608)"],
+      "ignore": 0
+    },
+    {
+      "class_id": 2,
+      "class_name": "car",
+      "confidence": "tensor(0.87)",
+      "bbox": ["tensor(100)", "tensor(300)", "tensor(400)", "tensor(500)"],
+"ignore": 0
+}
+]
+}
