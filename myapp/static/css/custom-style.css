@@ -1,0 +1,30 @@
+.center-video {
+    width: 4.277778rem;
+    height: 2.732323rem;
+    border: 1px solid #43dcff;
+    margin-bottom: .10101rem;
+    padding: .10101rem;
+    box-sizing: border-box;
+}
+
+.center-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.right-mid-content {
+    color: white;
+}
+
+.playvideo {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.playvideo:hover {
+    background-color: #022b57;
+}

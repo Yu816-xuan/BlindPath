@@ -56,7 +56,7 @@
 .left-mid,
 .left-bottom,
 .left-header {
-    background: url(../img/kuang4.png) no-repeat;
+    background: url(../img/kuang2.png) no-repeat;
     background-size: cover;
     width: 2.39899rem;
     height: 1.494949rem;
@@ -79,7 +79,7 @@
     margin-right: .126263rem;
 }
 
-.center-map {
+.center-video {
     width: 4.277778rem;
     height: 2.732323rem;
     border: 1px solid #43dcff;

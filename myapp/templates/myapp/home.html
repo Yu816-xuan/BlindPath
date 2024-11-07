@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>盲道侵占监测系统</title>
+    <link rel="stylesheet" href="{% static 'css/custom-style.css' %}">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="{% static 'css/scroll.css' %}">
@@ -21,28 +22,47 @@
         $(document).ready(function() {
             console.log("jQuery is loaded and ready to use!");
         });
-    </script>
-    <style>
-        /* 监控列表字体颜色设置为白色 */
-        .alarm-table td {
-            color: white; /* 设置监控列表字体为白色 */
+        // 定义一个函数来更新报警表格
+        function updateAlarmTable() {
+            fetch('/api/alarms/') // 调用API获取报警数据
+                .then(response => response.json())
+                .then(data => {
+                    // 获取表格的tbody元素
+                    const tbody = document.querySelector(".alarm-table tbody");
+                    tbody.innerHTML = ''; // 清空表格内容
+        
+                    // 遍历新数据并添加行
+                    data.alarms.forEach(alarm => {
+                        const row = document.createElement('tr');
+        
+                        // 类别列
+                        const typeCell = document.createElement('td');
+                        typeCell.textContent = alarm.obstacle_type; // 假设 obstacle_type 是显示名
+                        row.appendChild(typeCell);
+        
+                        // 报警时间列
+                        const timeCell = document.createElement('td');
+                        timeCell.textContent = alarm.alarm_time;
+                        row.appendChild(timeCell);
+        
+                        // 处理情况列
+                        const processedCell = document.createElement('td');
+                        processedCell.textContent = alarm.is_processed ? '已处理' : '未处理';
+                        row.appendChild(processedCell);
+        
+                        // 将行添加到表格
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching alarms:', error));
         }
-
-        /* 报警列表字体颜色设置为白色 */
-        .right-mid-content .alarm-table td {
-            color: white; /* 设置报警列表字体为白色 */
-        }
-
-        /* 如果你希望表头文字也改为白色 */
-        .alarm-table th {
-            color: white; /* 设置监控列表表头字体颜色为白色 */
-        }
-
-        /* 报警列表表头字体颜色设置为白色 */
-        .right-mid-content .alarm-table th {
-            color: white; /* 设置报警列表表头字体颜色为白色 */
-        }
-    </style>
+        
+        // 每隔30秒刷新表格
+        setInterval(updateAlarmTable, 30000); // 30000 毫秒 = 30秒
+        
+        // 页面加载时首次更新表格
+        document.addEventListener("DOMContentLoaded", updateAlarmTable);
+        </script>
 </head>
 <body>
     <div class="bg">
@@ -58,13 +78,14 @@
                     <div class="right-mid-scroll">
                         <div class="right-mid-content">
                             <!-- 表格开始 -->
-                            <table class="alarm-table">
+                            <table class="monitor-table">
                                 <thead>
                                     <tr>
                                         <th>编号</th>
                                         <th>位置</th>
                                     </tr>
                                 </thead>
+                                <!-- Inside the "监控列表" table in the HTML file -->
                                 <tbody>
                                     {% for monitor in monitors %}
                                     <tr class="monitor-item" data-monitor-id="{{ monitor.id }}" data-video-url="{{ monitor.video_url }}">
@@ -76,14 +97,60 @@
                             </table>
                         </div>
                     </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            // Select all monitor items
+                            const monitorItems = document.querySelectorAll(".monitor-item");
+                        
+                            // Add a click event listener to each item
+                            monitorItems.forEach(item => {
+                                item.addEventListener("click", function () {
+                                    // Get the monitor ID from the clicked item
+                                    const monitorId = this.getAttribute("data-monitor-id");
+                        
+                                    // Call the function to update based on the monitor ID
+                                    updateMonitorDetails(monitorId);
+                                });
+                            });
+                        });
+                        
+                        function updateMonitorDetails(monitorId) {
+                            fetch(`/api/monitor/${monitorId}/details/`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    const videoElement = document.getElementById("myVideo");
+                                    const videoSource = videoElement.querySelector("source");
+                        
+                                    videoSource.src = data.video_url;
+                                    videoElement.load();
+                                    console.log(`Monitor ID: ${monitorId}`, data);
+                                })
+                                .catch(error => console.error("Error fetching monitor details:", error));
+                        }
+                    </script>
 
                     <a href="javascript:;" class="history" id="triggerBtn1">查看历史记录</a>
                 </div>
             </div>
             <div class="center fl">
-                <div class="center-map">
-                    <div id="allmap" style="width:100%;height:100%;"></div>
-                </div>
+                <div class="center-video">
+                    <!-- 使用 Django 的 {{ MEDIA_URL }} 来引入视频文件 -->
+                    <!-- templates/video_page.html -->
+                     <!-- autoplay muted loop                   a-->
+                 
+                     <video id="myVideo" loop>
+                       <source src="{% static 'videos/my_video.mp4' %}" type="video/mp4">
+                       Your browser does not support the video tag.
+                     </video>
+                     <button class="playvideo" onclick="playVideo()">播放视频</button>
+                 
+                     <script>
+                     function playVideo() {
+                       var video = document.getElementById('myVideo');
+                       video.play();
+                     }
+                     </script>
+                 </div>
                  <div class="center-offline">
                     <div class="center-offline-header">
                         <p>离线站点清单</p>
@@ -151,7 +218,7 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
-                        </div>
+                        </div>                         
                     </div>
                     <a href="javascript:;" class="history" id="triggerBtn">查看历史记录</a>
                 </div>
@@ -285,6 +352,49 @@
         </div>
     </div>
     </div>
+    <script>
+        // Function to update alarm table based on monitor ID
+        function updateAlarmList(monitorId) {
+            fetch(`/api/monitor/${monitorId}/alarms/`) // Fetch alarms for the specific monitor
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.querySelector(".alarm-table tbody");
+                    tbody.innerHTML = ''; // Clear current table contents
+    
+                    // Populate table with the new alarm data
+                    data.alarms.forEach(alarm => {
+                        const row = document.createElement('tr');
+    
+                        const typeCell = document.createElement('td');
+                        typeCell.textContent = alarm.obstacle_type;
+                        row.appendChild(typeCell);
+    
+                        const timeCell = document.createElement('td');
+                        timeCell.textContent = alarm.alarm_time;
+                        row.appendChild(timeCell);
+    
+                        const processedCell = document.createElement('td');
+                        processedCell.textContent = alarm.is_processed ? '已处理' : '未处理';
+                        row.appendChild(processedCell);
+    
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error("Error fetching alarms:", error));
+        }
+    
+        // Event listener for each monitor item (List A)
+        document.addEventListener("DOMContentLoaded", function () {
+            const monitorItems = document.querySelectorAll(".monitor-item");
+    
+            monitorItems.forEach(item => {
+                item.addEventListener("click", function () {
+                    const monitorId = this.getAttribute("data-monitor-id");
+                    updateAlarmList(monitorId); // Call the function to update List B
+                });
+            });
+        });
+    </script>
 </body>
 <script src="https://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script src="{% static 'js/bar.js'%}"></script>

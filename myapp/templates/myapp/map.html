@@ -30,12 +30,12 @@
     <!-- 报警统计 -->
     <h2>报警统计</h2>
     <ul>
-<!--        {% for monitor in monitors %}-->
-<!--            <li>-->
-<!--                {{ monitor.location }}:-->
-<!--                <span class="statistic">{{ monitor.alarms.count }} 次报警</span>-->
-<!--            </li>-->
-<!--        {% endfor %}-->
+{% for monitor in monitors %}
+      <li>
+               {{ monitor.location }}:-->
+                <span class="statistic">{{ monitor.alarms.count }} 次报警</span>
+          </li>
+     {% endfor %}
     </ul>
 
     <!-- 引入 Leaflet.js 和地图功能 -->
